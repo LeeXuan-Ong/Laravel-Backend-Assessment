@@ -9,6 +9,7 @@ use App\Http\Resources\AccountResource;
 use App\Http\Requests\ExcelCSVRequest;
 use App\Http\Controllers\AccountController;
 use App\Models\User;
+use Hash;
 
 class ExcelCSVController extends Controller
 {
@@ -46,7 +47,7 @@ class ExcelCSVController extends Controller
         
         $result_array = $array[0];
         foreach($result_array as $new_array){
-            $array = [];
+            $password = Hash::make($new_array['password']);
             $name = $new_array['name'];
             $email = $new_array['email'];
             $id = $new_array['id'];
@@ -54,6 +55,7 @@ class ExcelCSVController extends Controller
             $user->update([
                 'name'=>$name,
                 'email'=>$email,
+                'password'=>$password,
             ]);
             }
         return 'success';
